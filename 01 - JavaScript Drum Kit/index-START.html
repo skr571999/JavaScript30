@@ -58,6 +58,38 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+// Algorithm :)
+// 1 - Listen for the Key press event
+// 2 - On key press
+//    - play the respective audio for some time
+//    - play the animation on respective key for some time
+// 3 - stop the audio and remove the animation
+// PROBLEM - animation not getting removed when keys are long pressed
+
+window.addEventListener('keydown', (e)=>{
+  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+  const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+  if (!audio) return;
+
+  console.log(key);
+  key.classList.add("playing");
+  audio.currentTime = 0;
+  audio.play();
+})
+
+const keys = document.querySelectorAll(".key");
+
+const removeTransition = (e)=>{
+  console.log("AA");
+  if(e.propertyName !== "transform") return;
+
+  e.target.classList.remove('playing');
+  console.log(e.propertyName);
+}
+
+keys.forEach((elem,index)=>{
+  elem.addEventListener("transitionend", removeTransition)
+})
 
 </script>
 
